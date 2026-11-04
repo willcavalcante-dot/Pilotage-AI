@@ -1,0 +1,8 @@
+{
+  "name": "pilotage-ai-backend",
+  "private": true,
+  "type": "module",
+  "description": "Optional oral-answer evaluator for Pilotage AI. Holds the API key server-side.",
+  "scripts": { "start": "node server.mjs" },
+  "dependencies": { "@anthropic-ai/sdk": "latest" }
+}

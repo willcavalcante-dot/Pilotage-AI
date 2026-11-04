@@ -1,0 +1,45 @@
+<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<script type="application/mira-manifest+json">{"title":"Pilotage AI"}</script>
+<title>Pilotage AI</title>
+<style>
+:root{--bg:#06111e;--card:#0c1c31;--card2:#11253f;--line:#1d3557;--ink:#e7f2ff;--muted:#8ea7c4;--cyan:#2fd3e6;--cyan2:#0e7f8e;--ok:#3ddc97;--warn:#ffb547;--bad:#ff6b6b}
+*{box-sizing:border-box}html,body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 -apple-system,system-ui,"Segoe UI",Roboto,sans-serif}
+header{position:sticky;top:0;z-index:5;background:linear-gradient(180deg,#06111e 85%,rgba(6,17,30,0));padding:14px 16px 6px}
+h1{margin:0;font-size:20px;letter-spacing:.06em}h1 b{color:var(--cyan)}
+.sub{color:var(--muted);font-size:12px}
+nav{display:flex;gap:6px;overflow-x:auto;padding:10px 0 4px;scrollbar-width:none}nav::-webkit-scrollbar{display:none}
+nav button{flex:0 0 auto;border:1px solid var(--line);background:var(--card);color:var(--muted);border-radius:999px;padding:7px 13px;font:inherit;font-size:13px}
+nav button.on{background:var(--cyan2);border-color:var(--cyan);color:#fff}
+main{padding:4px 16px 40px;max-width:760px;margin:0 auto}
+section{display:none}section.on{display:block}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin:12px 0}
+.card h2{margin:0 0 8px;font-size:15px;color:var(--cyan);letter-spacing:.03em}
+.kpis{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px}
+.kpi{background:var(--card2);border-radius:12px;padding:10px}.kpi b{display:block;font-size:22px}.kpi span{color:var(--muted);font-size:12px}
+.bar{height:8px;background:#0a1626;border-radius:9px;overflow:hidden;margin:4px 0 10px}.bar i{display:block;height:100%;background:var(--cyan)}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.grow{flex:1}
+button.act{background:var(--cyan);color:#022;border:0;border-radius:10px;padding:10px 14px;font:inherit;font-weight:600}
+button.sec{background:transparent;color:var(--cyan);border:1px solid var(--cyan2);border-radius:10px;padding:8px 12px;font:inherit}
+button:disabled{opacity:.45}
+select,input,textarea{background:#081627;color:var(--ink);border:1px solid var(--line);border-radius:9px;padding:8px;font:inherit;max-width:100%}
+textarea{width:100%;min-height:120px;font-family:ui-monospace,Menlo,monospace;font-size:12px}
+label{display:block;color:var(--muted);font-size:12px;margin:8px 0 3px}
+table{width:100%;border-collapse:collapse;font-size:13px}td,th{padding:6px 4px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}th{color:var(--muted);font-weight:500}
+.badge{display:inline-block;border-radius:6px;padding:1px 6px;font-size:11px;border:1px solid}
+.b-v{color:var(--ok);border-color:var(--ok)}.b-r{color:var(--cyan);border-color:var(--cyan2)}.b-a{color:var(--warn);border-color:var(--warn)}.b-u{color:var(--bad);border-color:var(--bad)}
+.muted{color:var(--muted)}.warn{color:var(--warn)}.bad{color:var(--bad)}.ok{color:var(--ok)}
+details{border-top:1px solid var(--line);padding:8px 0}summary{cursor:pointer}
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}.day{background:var(--card2);border-radius:9px;padding:6px;text-align:center;font-size:12px}.day b{display:block;font-size:17px}.day.hot b{color:var(--warn)}
+.pill{display:inline-block;background:var(--card2);border-radius:999px;padding:3px 9px;font-size:12px;margin:2px}
+#toast{position:fixed;left:16px;right:16px;bottom:16px;background:var(--cyan2);color:#fff;border-radius:12px;padding:10px 14px;display:none;z-index:9}
+.dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px;vertical-align:middle}
+</style></head>
+<body><main id="mira-companion-root">
+<header><h1>PILOTAGE <b>AI</b></h1><div class="sub" id="conn">Iniciando…</div>
+<nav id="tabs"></nav></header>
+<section id="t-dash"></section><section id="t-session"></section><section id="t-cal"></section><section id="t-cards"></section>
+<section id="t-import"></section><section id="t-oral"></section><section id="t-sources"></section><section id="t-settings"></section>
+<div id="toast"></div>
+</main>
+<!--SCRIPTS-->
+</body></html>
