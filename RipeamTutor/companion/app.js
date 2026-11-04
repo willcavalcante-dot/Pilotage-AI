@@ -60,9 +60,38 @@
     $('last').innerHTML = last ? '<b>' + esc(last.q.id) + ' — ' + L[last.verdict] + '</b><p>' + esc(last.q.q) + '</p><p><i>Você:</i> ' + esc(last.text) + '</p><pre>' + esc(last.correction) + '</pre><p>Reference: ' + esc(last.q.ref) + '</p>' : 'Nenhuma resposta avaliada ainda.';
   }
   $('mode').onchange = function () { S.mode = this.value; save(); pushState(); render(); };
-  $('key').onchange = function () { var v = this.value.trim(); if (v.indexOf('•') < 0) { S.apiKey = v; save(); pushState(); } render(); };
+  function msg(id, text, ok) { var el = $(id); el.textContent = text; el.className = ok ? 'ok' : 'bad'; }
+  function setKey(v) {
+    v = String(v || '').replace(/\s+/g, '');
+    if (!v || v.indexOf('•') >= 0) return;
+    if (!/^sk-ant-/.test(v)) { msg('key-msg', 'A chave deve começar com sk-ant- (copie a chave inteira do console da Anthropic).', false); return; }
+    S.apiKey = v; save(); pushState(); render();
+    msg('key-msg', 'Chave salva neste iPhone (termina em ' + v.slice(-4) + '). Toque em Testar IA.', true);
+  }
+  function testAI(id) {
+    if (!aiReady()) { msg(id, S.mode === 'key' ? 'Salve uma chave sk-ant- primeiro.' : 'Informe uma URL https:// primeiro.', false); return; }
+    msg(id, 'Testando…', true);
+    var q = BANK.questions.find(function (x) { return x.id === 'R5'; }) || BANK.questions[0];
+    callAI(q, 'Manter vigilância visual e auditiva o tempo todo, usando todos os meios disponíveis.')
+      .then(function (r) { msg(id, 'IA funcionando ✓ (teste avaliado como: ' + r.verdict + '). Pode usar nos óculos.', true); },
+        function (e) {
+          var m = e.name === 'AbortError' ? 'tempo esgotado' : e.message;
+          if (/Failed to fetch|Load failed|NetworkError/i.test(m)) m += ' — o app Mira pode estar bloqueando a chamada direta; use o modo Meu servidor.';
+          else if (/credit|billing|balance/i.test(m)) m += ' — adicione créditos em console.anthropic.com → Billing.';
+          else if (/authentication|invalid x-api-key|401/i.test(m)) m += ' — chave inválida ou revogada; gere outra.';
+          msg(id, 'Falhou: ' + m, false);
+        });
+  }
+  $('key').onchange = function () { setKey(this.value); render(); };
+  $('save').onclick = function () { setKey($('key').value); };
+  $('test').onclick = function () { testAI('key-msg'); };
+  $('test2').onclick = function () { testAI('url-msg'); };
+  if (MC && typeof MC.bindPasteButton === 'function') {
+    $('paste').hidden = false;
+    try { MC.bindPasteButton($('paste'), function (text) { $('key').value = ''; setKey(text); }); } catch (e) { $('paste').hidden = true; }
+  }
   $('url').onchange = function () { S.url = this.value.trim(); save(); pushState(); render(); };
-  $('forget').onclick = function () { S.apiKey = ''; save(); pushState(); render(); };
+  $('forget').onclick = function () { S.apiKey = ''; save(); pushState(); render(); msg('key-msg', 'Chave apagada deste iPhone.', true); };
   load().then(function (d) {
     if (d) S = Object.assign(S, d);
     render();

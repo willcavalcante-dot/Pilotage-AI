@@ -3,21 +3,22 @@
 <title>RIPEAM Tutor</title>
 <style>
 :root{--bg:#07131f;--card:#0e2136;--ink:#e8f3ff;--muted:#8fa8c4;--cyan:#33d1e3}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.45 -apple-system,system-ui,sans-serif}
+html{background:var(--bg)}*{box-sizing:border-box}body{min-height:100vh;margin:0;background:var(--bg);color:var(--ink);font:16px/1.45 -apple-system,system-ui,sans-serif}
 main{max-width:640px;margin:0 auto;padding:18px 16px 40px}h1{font-size:20px;letter-spacing:.08em;margin:0 0 4px}
 .card{background:var(--card);border-radius:14px;padding:14px;margin:14px 0}label{display:block;color:var(--muted);font-size:13px;margin:10px 0 4px}
 select,input{width:100%;background:#061321;color:var(--ink);border:1px solid #23405f;border-radius:10px;padding:10px;font:inherit}
 button{background:transparent;color:var(--cyan);border:1px solid var(--cyan);border-radius:10px;padding:8px 12px;font:inherit;margin-top:8px}
-#status{color:var(--cyan)}small,.muted{color:var(--muted)}pre{white-space:pre-wrap;font:inherit;color:#cfe3f7}
+#status{color:var(--cyan)}#key-msg,#url-msg{margin-top:8px;font-size:14px}.ok{color:#3ddc97}.bad{color:#ff7b7b}small,.muted{color:var(--muted)}pre{white-space:pre-wrap;font:inherit;color:#cfe3f7}
 </style></head>
 <body><main id="mira-companion-root">
 <h1>RIPEAM TUTOR</h1><div id="status">Iniciando…</div>
 <div class="card"><b>Avaliação por IA</b>
 <label for="mode">Modo</label>
 <select id="mode"><option value="off">Desligada (só mostra a resposta de referência)</option><option value="key">Chave da API Anthropic neste iPhone</option><option value="backend">Meu servidor (recomendado para chave segura)</option></select>
-<div id="key-row" hidden><label for="key">Chave da API (sk-ant-…)</label><input id="key" type="password" autocomplete="off" placeholder="sk-ant-...">
+<div id="key-row" hidden><label for="key">Chave da API (sk-ant-…)</label><input id="key" type="password" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="sk-ant-...">
+<div><button id="paste" hidden>Colar chave</button> <button id="save">Salvar</button> <button id="test">Testar IA</button></div><div id="key-msg"></div>
 <small>Fica só no armazenamento do app Mira neste iPhone; não está no arquivo do app e só é enviada para api.anthropic.com. Use uma chave dedicada com limite de gastos.</small><br><button id="forget">Apagar chave</button></div>
-<div id="url-row" hidden><label for="url">URL HTTPS do seu servidor</label><input id="url" placeholder="https://meu-servidor/grade"><small>Veja backend/README.md. A chave fica no servidor.</small></div>
+<div id="url-row" hidden><label for="url">URL HTTPS do seu servidor</label><input id="url" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="https://meu-servidor/grade"><button id="test2">Testar IA</button><div id="url-msg"></div><small>Veja backend/README.md. A chave fica no servidor.</small></div>
 </div>
 <div class="card"><b>Última resposta</b><div id="last" class="muted"></div></div>
 <p class="muted"><small>Nos óculos: toque em Speak Answer, fale, toque em Send Answer. Segurar pula a pergunta. Respostas de referência revisadas pelo autor a partir da RIPEAM/COLREG; confira com a edição oficial vigente.</small></p>
