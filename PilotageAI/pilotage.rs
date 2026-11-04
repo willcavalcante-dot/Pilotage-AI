@@ -654,7 +654,7 @@ unsafe fn on_msg(m: &[u8]) {
             }
             if json::get(m, b"lines").is_some() { STLEN = json::unescape(json::get(m, b"lines"), &mut STATS); }
             let l = json::int(json::get(m, b"lang"), LANG as i32);
-            if (0..3).contains(&l) && !HELLO { LANG = l as u8; }
+            if (0..3).contains(&l) && !HELLO && !LANG_SET { LANG = l as u8; }
             if json::get(m, b"hello").is_some() { HELLO = true; }
             if SCR == S::Progress { build_progress(); }
         }

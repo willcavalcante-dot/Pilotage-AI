@@ -132,7 +132,7 @@
     S.glasses.lastSeen = Date.now();
     if (m.type === 'hello') {
       S.glasses.run = m.run; S.glasses.bank = m.bank; S.glasses.deck = m.deck; S.glasses.pending = m.pending;
-      if (m.langset) S.settings.lang = m.lang;
+      if (m.langset && S.settings.lang !== m.lang) { S.settings.lang = m.lang; save(); }
       pushState(false);
       if (S.imported.some(deckEligible)) sendDeck(true);
     } else if (m.type === 'results') {

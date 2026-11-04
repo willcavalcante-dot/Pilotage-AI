@@ -1,3 +1,10 @@
+# Mira apps for the Praticagem 2027 exam
+
+| App | Install file | What it is |
+|---|---|---|
+| **RIPEAM Tutor** | [`dist/RIPEAMTutor.html`](dist/RIPEAMTutor.html) | Minimal spoken open-answer quiz with AI evaluation — see [`RipeamTutor/README.md`](RipeamTutor/README.md) |
+| **Pilotage AI** | [`dist/PilotageAI.html`](dist/PilotageAI.html) | Full study assistant (quiz, flashcards, simulator, rule explorer) — below |
+
 # Pilotage AI — Mira smart-glasses study assistant (PSCPP 2027)
 
 Hands-free, bilingual (PT-BR / Maritime English) study tutor for the Brazilian

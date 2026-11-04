@@ -4,6 +4,9 @@
 // Run behind HTTPS (reverse proxy / platform TLS); the companion requires https://.
 import http from 'node:http';
 import Anthropic from '@anthropic-ai/sdk';
+import { createRequire } from 'node:module';
+// RIPEAM Tutor: same prompt, schema and parser as the phone's direct mode.
+const RT = createRequire(import.meta.url)('../RipeamTutor/companion/grade.js');
 
 const client = new Anthropic();
 const PORT = Number(process.env.PORT || 8787);
@@ -56,6 +59,17 @@ async function grade(body) {
   return out;
 }
 
+async function gradeTutor(b) {
+  const q = { q: b.question, a: b.reference, ref: b.citation, k: (b.essentials || []).map((e) => [String(e)]) };
+  const response = await client.beta.messages.create({ ...RT.requestBody(q, b.transcript), betas: ['server-side-fallback-2026-07-01'] });
+  return RT.parseMessage(response);
+}
+
+function validTutor(b) {
+  return b && b.task === 'ripeam_tutor_grade' && typeof b.question === 'string' && typeof b.reference === 'string'
+    && typeof b.transcript === 'string' && b.transcript.length <= 4000 && b.reference.length <= 4000;
+}
+
 function valid(b) {
   return b && b.task === 'evaluate_oral' && typeof b.prompt === 'string' && typeof b.reference === 'string'
     && typeof b.transcript === 'string' && b.transcript.length <= 4000 && b.reference.length <= 4000;
@@ -71,9 +85,9 @@ http.createServer(async (req, res) => {
   for await (const chunk of req) { raw += chunk; if (raw.length > 32_000) { res.writeHead(413).end(); return; } }
   let body;
   try { body = JSON.parse(raw); } catch { res.writeHead(400).end('bad json'); return; }
-  if (!valid(body)) { res.writeHead(400).end('invalid request'); return; }
+  if (!valid(body) && !validTutor(body)) { res.writeHead(400).end('invalid request'); return; }
   try {
-    const result = await grade(body);
+    const result = validTutor(body) ? await gradeTutor(body) : await grade(body);
     res.writeHead(200, { 'Content-Type': 'application/json' }).end(JSON.stringify(result));
   } catch (err) {
     console.error(err);

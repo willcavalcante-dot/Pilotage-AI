@@ -237,6 +237,7 @@ await selectItem('Meu progresso'); await selectItem('Idioma');
 await lp();
 check('English UI after toggle', await has('Quick review') && await has('My progress'));
 await tick(20); await page.waitForTimeout(400);
+if (process.env.DEBUG) console.log('DBG', JSON.stringify(await G(() => ({h: window.__glasses.fromApp.filter(m => m.type === 'hello'), st: JSON.parse(window.__glasses.store['pilotage-state-v1']).settings, q: window.__glasses.toAppLog.slice(-3)}))));
 check('companion adopted glasses language', await G(() => JSON.parse(window.__glasses.store['pilotage-state-v1']).settings.lang === 1));
 
 // Companion screenshots
